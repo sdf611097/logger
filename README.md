@@ -1,6 +1,6 @@
-# logger
-log with colors, 
-Show log when envVar VERBOSE is set, 
+# ct-logger
+log with colors,
+Show log when envVar VERBOSE is set,
 Show stacktrace
 
 Screen shot of OSX.
