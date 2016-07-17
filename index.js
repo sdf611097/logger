@@ -69,7 +69,7 @@ function log(opts){
     //remove undefined, if(opt) will ignore RESET, using || to apply 0
     //and then retreive its code
     const codes = opts.filter(opt=> getCode(opt) || getCode(opt)===0).map(getCode);
-    let args =  Array.prototype.slice.call(arguments, 0);
+    let args =  Array.prototype.slice.call(arguments);
     args[0] = codes;
     _log.apply(null, args);
 }
@@ -80,7 +80,15 @@ function stack(opts, maxLines){
     lines.slice(0, maxLines).forEach(line=> log(opts, line));
 }
 
+function debug(){
+    const opts = ['cyan','italic'];
+    if(process.env.VERBOSE){
+        log.apply(null, [opts].concat(Array.prototype.slice.call(arguments)));
+    }
+}
+
 module.exports = {
+    debug,
     stack,
     SUPPORTEDS: Object.keys(supportedCodes),
     log,

@@ -38,3 +38,14 @@ function showStack(){
     func();
 }
 showStack();
+
+
+function testDebug(){
+    console.log('process.env.VERBOSE', process.env.VERBOSE);
+    logger.debug('hi','debug','log');
+    console.log('end of log');
+}
+
+testDebug();
+process.env.VERBOSE = 1;
+testDebug();
