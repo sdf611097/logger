@@ -61,6 +61,10 @@ function log(opts){
         opts = [opts];
     }
 
+    if( Object.prototype.toString.call( opts ) !== '[object Array]' ) {
+        opts = [];
+    }
+
     const getCode = name=> supportedCodes[name.toUpperCase()];
     //remove undefined, if(opt) will ignore RESET, using || to apply 0
     //and then retreive its code
@@ -70,7 +74,14 @@ function log(opts){
     _log.apply(null, args);
 }
 
+function stack(opts, maxLines){
+    let stack = new Error("This is a stack log, not an Error").stack;
+    let lines = stack.split('\n').slice(2);
+    lines.slice(0, maxLines).forEach(line=> log(opts, line));
+}
+
 module.exports = {
+    stack,
     SUPPORTEDS: Object.keys(supportedCodes),
     log,
     colorLog,

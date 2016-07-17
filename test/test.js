@@ -27,3 +27,14 @@ for(let i=0; i< Math.pow(2,noResetEffects.length); i++){
         logger.log(test, 'this', 'is', 'a/an', test.join('-'), 'log');
     }
 }
+
+function showStack(){
+    let args = arguments;
+    function func(){
+        logger.stack();
+        console.log('###');
+        logger.stack(['red','bold'], 3);
+    }
+    func();
+}
+showStack();
