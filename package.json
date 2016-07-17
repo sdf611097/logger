@@ -1,7 +1,7 @@
 {
   "name": "ct-logger",
-  "version": "1.0.0",
-  "description": "log with colors",
+  "version": "1.0.1",
+  "description": "log with colors, show log when envVar VERBOSE is set, show stacktrace",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -17,7 +17,10 @@
   },
   "keywords": [
     "color",
-    "log"
+    "log",
+    "stacktrace",
+    "debug",
+    "VERBOSE"
   ],
   "author": "Chun-Ting Lin",
   "license": "MIT",
