@@ -1,13 +1,13 @@
 'use strict';
 const colors = {
-    black: 30,
-    red: 31,
-    green: 32,
-    yellow: 33,
-    blue: 34,
-    magenta: 35,
-    cyan: 36,
-    white: 37,
+    BLACK: 30,
+    RED: 31,
+    GREEN: 32,
+    YELLOW: 33,
+    BLUE: 34,
+    MAGENTA: 35,
+    CYAN: 36,
+    WHITE: 37,
 };
 
 const effects = {
@@ -16,8 +16,10 @@ const effects = {
     FAINT: 2, //Faint (decreased intensity), Not widely supported.
     ITALIC: 3, //Not widely supported. Sometimes treated as inverse.
     UNDERLINE: 4,
-    BLINK: 5,
 };
+
+const supportedCodes = Object.assign({}, colors, effects);
+
 
 const END = '\x1b[0m';
 
@@ -25,19 +27,52 @@ const text = 'test';
 
 //getCode, is not exist, using white
 function getCode(colorName){
+    colorName = colorName.toUpperCase();
     return colors[colorName]? colors[colorName]: getCode('white');
 }
 
 //log(color, arg1, arg2, ..., argN)
 function colorLog(color){
     const code = getCode(color);
-    let args = ['\x1b['+code+'m'];
+    let args =  Array.prototype.slice.call(arguments, 0);
+    args[0] = code;
+    _log.apply(null, args);
+}
+
+function getBegin(codes){
+    if( Object.prototype.toString.call( codes ) !== '[object Array]' ) {
+        return getBegin(['white']);
+    }
+    return '\x1b[' + codes.join(';') + 'm';
+}
+
+function _log(codes){
+    if(typeof codes === "number"){
+        codes = [codes];
+    }
+    let args = [getBegin(codes)];
     args = args.concat(Array.prototype.slice.call(arguments, 1));
     args = args.concat([END]);
     console.log.apply(null, args);
 }
 
+function log(opts){
+    if(typeof opts === "string"){
+        opts = [opts];
+    }
+
+    const getCode = name=> supportedCodes[name.toUpperCase()];
+    //remove undefined, if(opt) will ignore RESET, using || to apply 0
+    //and then retreive its code
+    const codes = opts.filter(opt=> getCode(opt) || getCode(opt)===0).map(getCode);
+    let args =  Array.prototype.slice.call(arguments, 0);
+    args[0] = codes;
+    _log.apply(null, args);
+}
+
 module.exports = {
+    SUPPORTEDS: Object.keys(supportedCodes),
+    log,
     colorLog,
     COLORS: Object.keys(colors),
     EFFECTS: Object.keys(effects),
