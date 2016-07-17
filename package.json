@@ -1,0 +1,26 @@
+{
+  "name": "ct-logger",
+  "version": "1.0.0",
+  "description": "log with colors",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sdf611097/logger.git"
+  },
+  "keywords": [
+    "color",
+    "log"
+  ],
+  "author": "Chun-Ting Lin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sdf611097/logger/issues"
+  },
+  "homepage": "https://github.com/sdf611097/logger#readme"
+}
