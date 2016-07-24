@@ -52,3 +52,6 @@ function testDebug() {
 testDebug();
 process.env.VERBOSE = 1;
 testDebug();
+
+logger.options.showDate = true;
+logger.log('cyan', 'belows will contains date str');

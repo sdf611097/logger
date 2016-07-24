@@ -1,4 +1,8 @@
 'use strict';
+let options = {
+    showDate: false,
+};
+
 const colors = {
     BLACK: 30,
     RED: 31,
@@ -23,6 +27,22 @@ const supportedCodes = Object.assign({}, colors, effects);
 const END = '\x1b[0m';
 
 const text = 'test';
+
+//[MM-DD HH:MM:SS]
+function getDateStr() {
+    let now = new Date();
+
+    //0x -> 0x, 0xx-> xx
+    let month = '0' + (now.getMonth() + 1);
+    let date = '0' + now.getDate();
+    month = month.slice(-2);
+    date = date.slice(-2);
+
+    let MMDD = month + '-' + date;
+    let HHMMSS = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+
+    return '[' + MMDD + ' ' + HHMMSS + ']';
+}
 
 //getCode, is not exist, using white
 function getCode(colorName) {
@@ -52,6 +72,10 @@ function _log(codes) {
     }
 
     let args = [getBegin(codes)];
+    if (options.showDate) {
+        args = [getDateStr()].concat(args);
+    }
+
     args = args.concat(Array.prototype.slice.call(arguments, 1));
     args = args.concat([END]);
     console.log.apply(null, args);
@@ -90,6 +114,7 @@ function debug() {
 }
 
 module.exports = {
+    options,
     debug,
     stack,
     SUPPORTEDS: Object.keys(supportedCodes),
