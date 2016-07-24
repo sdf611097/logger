@@ -6,6 +6,12 @@ Show stacktrace
 Screen shot of OSX.
 ![alt tag](./screenshot_OSX.png)
 
+#Options
+Show date with format:[MM-DD HH:MM:SS]
+```js
+var logger = require('ct-logger');
+logger.showDate = true;
+```
 #Usage
 like console.log,
 ```js
