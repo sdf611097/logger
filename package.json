@@ -1,7 +1,7 @@
 {
   "name": "ct-logger",
-  "version": "1.0.1",
-  "description": "log with colors, show log when envVar VERBOSE is set, show stacktrace",
+  "version": "1.0.2",
+  "description": "log with colors, show debug log when envVar VERBOSE is set, show stacktrace, log with date info",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -17,6 +17,8 @@
   },
   "keywords": [
     "color",
+    "date",
+    "time",
     "log",
     "stacktrace",
     "debug",
