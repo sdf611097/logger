@@ -1,10 +1,13 @@
 {
   "name": "ct-logger",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "log with colors, show debug log when envVar VERBOSE is set, show stacktrace, log with date info",
   "main": "index.js",
   "directories": {
     "test": "test"
+  },
+  "bin": {
+    "applyOpts": "bin/applyOpts.js"
   },
   "scripts": {
     "beautify": "./node_modules/.bin/jscs ./ --fix",
@@ -33,5 +36,8 @@
   "devDependencies": {
     "jscs": "^3.0.7",
     "jshint": "^2.9.2"
+  },
+  "dependencies": {
+    "commander": "^2.9.0"
   }
 }

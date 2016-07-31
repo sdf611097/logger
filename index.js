@@ -28,6 +28,21 @@ const END = '\x1b[0m';
 
 const text = 'test';
 
+function start(opts, msg) {
+    opts = _toArray(opts);
+    const codes = _opts2Codes(opts);
+    let str = getBegin(codes);
+    if (msg) {
+        str += ' ' + msg;
+    }
+
+    console.log(str);
+}
+
+function end(msg) {
+    start('reset', msg);
+}
+
 //[MM-DD HH:MM:SS]
 function getDateStr() {
     let now = new Date();
@@ -66,11 +81,8 @@ function getBegin(codes) {
     return '\x1b[' + codes.join(';') + 'm';
 }
 
+//Make sure codes is an array
 function _log(codes) {
-    if (typeof codes === 'number') {
-        codes = [codes];
-    }
-
     let args = [getBegin(codes)];
     if (options.showDate) {
         args = [getDateStr()].concat(args);
@@ -81,7 +93,8 @@ function _log(codes) {
     console.log.apply(null, args);
 }
 
-function log(opts) {
+//dealwith string, if not string or array=> []
+function _toArray(opts) {
     if (typeof opts === 'string') {
         opts = [opts];
     }
@@ -90,11 +103,20 @@ function log(opts) {
         opts = [];
     }
 
-    const getCode = name=> supportedCodes[name.toUpperCase()];
+    return opts;
+}
+
+function _opts2Codes(opts) {
 
     //remove undefined, if(opt) will ignore RESET, using || to apply 0
     //and then retreive its code
-    const codes = opts.filter(opt=> getCode(opt) || getCode(opt) === 0).map(getCode);
+    const getCode = opt=> supportedCodes[opt.toUpperCase()];
+    return opts.map(getCode).filter(code=> code || code === 0);
+}
+
+function log(opts) {
+    opts = _toArray(opts);
+    const codes = _opts2Codes(opts);
     let args =  Array.prototype.slice.call(arguments);
     args[0] = codes;
     _log.apply(null, args);
@@ -114,6 +136,8 @@ function debug() {
 }
 
 module.exports = {
+    start,
+    end,
     options,
     debug,
     stack,

@@ -55,3 +55,34 @@ testDebug();
 
 logger.options.showDate = true;
 logger.log('cyan', 'belows will contains date str');
+
+logger.log(null, 'using null');
+logger.log('notExist', 'notExistWillBeIgnored');
+
+let opts = ['notExist', 'red'];
+logger.log(opts, opts);
+
+opts.push('UNDERLINE');
+logger.log(opts, opts);
+
+opts.push('notExist');
+logger.log(opts, opts);
+
+opts.push('reset');
+logger.log(opts, opts);
+
+let startEffect = ['blue', 'italic'];
+logger.start(startEffect);
+console.log(startEffect);
+console.log('This is console.log');
+console.log('end');
+logger.end();
+console.log('reseted');
+
+startEffect = 'cyan';
+logger.start(startEffect, 'this is msg on start');
+console.log(startEffect);
+console.log('This is console.log');
+console.log('end');
+logger.end('this is an end msg');
+console.log('reseted');
