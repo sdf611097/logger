@@ -135,6 +135,34 @@ function debug() {
     }
 }
 
+function red() {
+    log.apply(null, ['red'].concat(Array.prototype.slice.call(arguments)));
+}
+
+function green() {
+    log.apply(null, ['green'].concat(Array.prototype.slice.call(arguments)));
+}
+
+function yellow() {
+    log.apply(null, ['yellow'].concat(Array.prototype.slice.call(arguments)));
+}
+
+function blue() {
+    log.apply(null, ['blue'].concat(Array.prototype.slice.call(arguments)));
+}
+
+function magenta() {
+    log.apply(null, ['magenta'].concat(Array.prototype.slice.call(arguments)));
+}
+
+function cyan() {
+    log.apply(null, ['cyan'].concat(Array.prototype.slice.call(arguments)));
+}
+
+function white() {
+    log.apply(null, ['white'].concat(Array.prototype.slice.call(arguments)));
+}
+
 module.exports = {
     start,
     end,
@@ -146,4 +174,11 @@ module.exports = {
     colorLog,
     COLORS: Object.keys(colors),
     EFFECTS: Object.keys(effects),
+    red,
+    green,
+    yellow,
+    blue,
+    magenta,
+    cyan,
+    white,
 };

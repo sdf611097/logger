@@ -86,3 +86,12 @@ console.log('This is console.log');
 console.log('end');
 logger.end('this is an end msg');
 console.log('reseted');
+
+logger.red('this is red');
+logger.green('this is green');
+logger.yellow('this is yellow');
+logger.blue('this is blue');
+logger.magenta('this is magenta');
+logger.cyan('this is cyan');
+logger.white('this is white');
+
