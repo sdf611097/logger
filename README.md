@@ -4,7 +4,8 @@ Show log when envVar VERBOSE is set,
 Show stacktrace
 
 Screen shot of OSX.
-![alt tag](./screenshot_OSX.png)
+![alt tag](./screenshot_OSX1.png)
+![alt tag](./screenshot_OSX2.png)
 
 # Options
 Show date with format:[MM-DD HH:MM:SS]
@@ -35,12 +36,15 @@ All opts are case-insensitive.
 logger.log(['italic', 'blue', 'bold'], 'this', 'is', 'log');
 ```
 
-## colorLog(color, arg1, arg2, ..., argN)
+## colorLog(color, arg1, arg2, ..., argN), red(...), bgBlue(...)
 color is String.
 Colors: BLACK,RED,GREEN,YELLOW,BLUE,MAGENTA,CYAN,WHITE
 ```js
 logger.colorLog('green', 'li', 'ho');
 logger.colorLog('bg_red', 'li', 'ho');
+// shortcut of colorLog, all colors and bg are supported
+logger.red('this', 'is', 'red', 'log);
+logger.bgGreen('this bg is green');
 ```
 
 ## debug()
@@ -63,4 +67,12 @@ const codeBackgroundBlue = logger.BG_COLORS.BG_BLUE;
 logger.byCodes([codeRed, codeBackgroundBlue], 'this is a red log and bg is blue');
 
 logger.byCodes([31, 44], 'this is a red log and bg is blue');
+```
+
+## start(opts) end()
+All console.log between `start` and `end` will apply opts which you set.
+```js
+logger.start(['red', 'italic']);
+console.log('this log is red and italic');
+logger.end();
 ```

@@ -27,6 +27,16 @@ const bgColors = {
     BG_WHITE: 47,
 };
 
+const fontColorOfBGs = {};
+fontColorOfBGs[bgColors.BG_BLACK] = colors.WHITE;
+fontColorOfBGs[bgColors.BG_RED] = colors.CYAN;
+fontColorOfBGs[bgColors.BG_GREEN] = colors.MAGENTA;
+fontColorOfBGs[bgColors.BG_YELLOW] = colors.BLUE;
+fontColorOfBGs[bgColors.BG_BLUE] = colors.YELLOW;
+fontColorOfBGs[bgColors.BG_MAGENTA] = colors.GREEN;
+fontColorOfBGs[bgColors.BG_CYAN] = colors.RED;
+fontColorOfBGs[bgColors.BG_WHITE] = colors.BLACK;
+
 const effects = {
     RESET: 0, //all attributes off
     BOLD: 1, //Bold or increased intensity
@@ -41,19 +51,15 @@ const END = '\x1b[0m';
 
 const text = 'test';
 
-function start(opts, msg) {
+function start(opts) {
     opts = _toArray(opts);
     const codes = _opts2Codes(opts);
     let str = getBegin(codes);
-    if (msg) {
-        str += ' ' + msg;
-    }
-
-    console.log(str);
+    process.stdout.write(str);
 }
 
-function end(msg) {
-    start('reset', msg);
+function end() {
+    process.stdout.write(getBegin([effects.RESET, 21, 22, 23, 24]));
 }
 
 //[MM-DD HH:MM:SS]
@@ -82,7 +88,12 @@ function getCode(colorName) {
 function colorLog(color) {
     const code = getCode(color);
     let args =  Array.prototype.slice.call(arguments, 0);
-    args[0] = [code];
+    if (code >= 40 && code <= 47) {
+        args[0] = [code, fontColorOfBGs[code]];
+    }else {
+        args[0] = [code];
+    }
+
     _log.apply(null, args);
 }
 
@@ -152,8 +163,15 @@ function debug() {
 }
 
 function oneOptionMethod(opt) {
-    return () =>
+    return function () {
         log.apply(null, [opt].concat(Array.prototype.slice.call(arguments)));
+    };
+}
+
+function bgShortcut(bgColor) {
+    return function () {
+        colorLog.apply(null, [bgColor].concat(Array.prototype.slice.call(arguments)));
+    };
 }
 
 module.exports = {
@@ -176,5 +194,13 @@ module.exports = {
     magenta: oneOptionMethod('magenta'),
     cyan: oneOptionMethod('cyan'),
     white: oneOptionMethod('white'),
+    bgBlack: bgShortcut('bg_black'),
+    bgRed: bgShortcut('bg_red'),
+    bgGreen: bgShortcut('bg_green'),
+    bgYellow: bgShortcut('bg_yellow'),
+    bgBlue: bgShortcut('bg_blue'),
+    bgMagenta: bgShortcut('bg_magenta'),
+    bgCyan: bgShortcut('bg_cyan'),
+    bgWhite: bgShortcut('bg_white'),
     byCodes,
 };

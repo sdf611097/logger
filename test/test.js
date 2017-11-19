@@ -82,22 +82,23 @@ logger.log(opts, opts);
 opts.push('reset');
 logger.log(opts, opts);
 
-let startEffect = ['blue', 'italic'];
+let startEffect = ['red', 'italic'];
 logger.start(startEffect);
-console.log(startEffect);
+console.log('logger.start(["red", "italic"])');
 console.log('This is console.log');
 console.log('end');
 logger.end();
-console.log('reset');
+console.log('console.log, not between start and end');
 
 startEffect = 'cyan';
-logger.start(startEffect, 'this is msg on start');
-console.log(startEffect);
+logger.start(startEffect);
+console.log('logger.start("cyan")');
 console.log('This is console.log');
 console.log('end');
-logger.end('this is an end msg');
-console.log('reset');
+logger.end();
+console.log('console.log, not between start and end');
 
+logger.black('this is black');
 logger.red('this is red');
 logger.green('this is green');
 logger.yellow('this is yellow');
@@ -106,6 +107,16 @@ logger.magenta('this is magenta');
 logger.cyan('this is cyan');
 logger.white('this is white');
 
+logger.bgBlack('this is bgBlack log');
+logger.bgRed('this is bgRed log');
+logger.bgGreen('this is bgGreen log');
+logger.bgYellow('this is bgYellow log');
+logger.bgBlue('this is bgBlue log');
+logger.bgMagenta('this is bgMagenta log');
+logger.bgCyan('this is bgCyan log');
+logger.bgWhite('this is bgWhite log');
+
 const codeRed = logger.COLORS.RED;
 const codeBackgroundBlue = logger.BG_COLORS.BG_BLUE;
-logger.byCodes([codeRed, codeBackgroundBlue], 'this is a red log and bg is blue');
+logger.byCodes([codeRed, codeBackgroundBlue],
+`By codes: this is a red(${codeRed}) log and bg is blue(${codeBackgroundBlue}`);
