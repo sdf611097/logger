@@ -39,7 +39,8 @@ logger.log(['italic', 'blue', 'bold'], 'this', 'is', 'log');
 color is String.
 Colors: BLACK,RED,GREEN,YELLOW,BLUE,MAGENTA,CYAN,WHITE
 ```js
-logger.colorLog('red', 'li', 'ho');
+logger.colorLog('green', 'li', 'ho');
+logger.colorLog('bg_red', 'li', 'ho');
 ```
 
 ## debug()
@@ -51,4 +52,15 @@ logger.debug('shows only when', 'VERBOSE', 'been', 'set');
 opts is as same as `log`, maxLines is a number, which indicate max stacktrace to shows
 ```js
 logger.stack(['red', 'bold'], 3);
+```
+
+## byCodes(codes)
+You can pass other codes, and try it.
+More codes see [ANSI ESCAPE CODE](https://en.wikipedia.org/wiki/ANSI_escape_code)
+```js
+const codeRed = logger.COLORS.RED;
+const codeBackgroundBlue = logger.BG_COLORS.BG_BLUE;
+logger.byCodes([codeRed, codeBackgroundBlue], 'this is a red log and bg is blue');
+
+logger.byCodes([31, 44], 'this is a red log and bg is blue');
 ```

@@ -1,19 +1,28 @@
 /* jshint -W083 */
 'use strict';
 const logger = require('../index.js');
+const COLORS = logger.COLORS;
+const BG_COLORS = logger.BG_COLORS;
+const EFFECTS = logger.EFFECTS;
 
-console.log('colors:', logger.COLORS.join(','));
-console.log('effects:', logger.EFFECTS.join(','));
+const colors = Object.keys(COLORS);
+const bgColors = Object.keys(BG_COLORS);
+const effects = Object.keys(EFFECTS);
+
+console.log('colors:', colors.join(','));
+console.log('background colors:', bgColors.join(','));
+console.log('effects:', effects.join(','));
 
 //logger.colorLog(colorName, ...)
-for (let index in logger.COLORS) {
-    const color = logger.COLORS[index];
+const colorAndBG = colors.concat(bgColors);
+for (let index in colorAndBG) {
+    const color = colorAndBG[index];
     logger.colorLog(color, 'this', 'is', 'a/an', color, 'log');
 }
 
 //logger.log(opts, ...)
-const noResetEffects = logger.EFFECTS.filter(effect=> effect != 'RESET');
-const color = logger.COLORS[3];
+const noResetEffects = effects.filter(effect=> effect != 'RESET');
+const color = colors[3];
 for (let i = 0; i < Math.pow(2, noResetEffects.length); i++) {
     let effects = [];
     for (let j = 0, tmp = i; j < noResetEffects.length; j++) {
@@ -33,8 +42,10 @@ for (let i = 0; i < Math.pow(2, noResetEffects.length); i++) {
 function showStack() {
     let args = arguments;
     function func() {
+        console.log('---');
+        logger.log(['yellow', 'bg_red'], 'show stack, not an error');
         logger.stack();
-        console.log('###');
+        logger.log(['yellow', 'bg_red'], 'stack with opts and limit lines');
         logger.stack(['red', 'bold'], 3);
     }
 
@@ -77,7 +88,7 @@ console.log(startEffect);
 console.log('This is console.log');
 console.log('end');
 logger.end();
-console.log('reseted');
+console.log('reset');
 
 startEffect = 'cyan';
 logger.start(startEffect, 'this is msg on start');
@@ -85,7 +96,7 @@ console.log(startEffect);
 console.log('This is console.log');
 console.log('end');
 logger.end('this is an end msg');
-console.log('reseted');
+console.log('reset');
 
 logger.red('this is red');
 logger.green('this is green');
@@ -95,3 +106,6 @@ logger.magenta('this is magenta');
 logger.cyan('this is cyan');
 logger.white('this is white');
 
+const codeRed = logger.COLORS.RED;
+const codeBackgroundBlue = logger.BG_COLORS.BG_BLUE;
+logger.byCodes([codeRed, codeBackgroundBlue], 'this is a red log and bg is blue');

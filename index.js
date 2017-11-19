@@ -1,4 +1,6 @@
 'use strict';
+const DEFAULT_COLOR = process.env.DEFAULT_COLOR ? process.env.DEFAULT_COLOR : 'WHITE';
+
 let options = {
     showDate: false,
 };
@@ -14,6 +16,17 @@ const colors = {
     WHITE: 37,
 };
 
+const bgColors = {
+    BG_BLACK: 40,
+    BG_RED: 41,
+    BG_GREEN: 42,
+    BG_YELLOW: 43,
+    BG_BLUE: 44,
+    BG_MAGENTA: 45,
+    BG_CYAN: 46,
+    BG_WHITE: 47,
+};
+
 const effects = {
     RESET: 0, //all attributes off
     BOLD: 1, //Bold or increased intensity
@@ -22,7 +35,7 @@ const effects = {
     UNDERLINE: 4,
 };
 
-const supportedCodes = Object.assign({}, colors, effects);
+const supportedCodes = Object.assign({}, colors, bgColors, effects);
 
 const END = '\x1b[0m';
 
@@ -62,14 +75,14 @@ function getDateStr() {
 //getCode, is not exist, using white
 function getCode(colorName) {
     colorName = colorName.toUpperCase();
-    return colors[colorName] ? colors[colorName] : getCode('white');
+    return supportedCodes[colorName] ? supportedCodes[colorName] : getCode(DEFAULT_COLOR);
 }
 
 //log(color, arg1, arg2, ..., argN)
 function colorLog(color) {
     const code = getCode(color);
     let args =  Array.prototype.slice.call(arguments, 0);
-    args[0] = code;
+    args[0] = [code];
     _log.apply(null, args);
 }
 
@@ -93,7 +106,7 @@ function _log(codes) {
     console.log.apply(null, args);
 }
 
-//dealwith string, if not string or array=> []
+//deal with string, if not string or array=> []
 function _toArray(opts) {
     if (typeof opts === 'string') {
         opts = [opts];
@@ -108,9 +121,7 @@ function _toArray(opts) {
 
 function _opts2Codes(opts) {
 
-    //remove undefined, if(opt) will ignore RESET, using || to apply 0
-    //and then retreive its code
-    const getCode = opt=> supportedCodes[opt.toUpperCase()];
+    //remove undefined, avoid if(0) case and then return the codes
     return opts.map(getCode).filter(code=> code || code === 0);
 }
 
@@ -119,6 +130,11 @@ function log(opts) {
     const codes = _opts2Codes(opts);
     let args =  Array.prototype.slice.call(arguments);
     args[0] = codes;
+    _log.apply(null, args);
+}
+
+function byCodes(codes) {
+    let args =  Array.prototype.slice.call(arguments);
     _log.apply(null, args);
 }
 
@@ -135,32 +151,9 @@ function debug() {
     }
 }
 
-function red() {
-    log.apply(null, ['red'].concat(Array.prototype.slice.call(arguments)));
-}
-
-function green() {
-    log.apply(null, ['green'].concat(Array.prototype.slice.call(arguments)));
-}
-
-function yellow() {
-    log.apply(null, ['yellow'].concat(Array.prototype.slice.call(arguments)));
-}
-
-function blue() {
-    log.apply(null, ['blue'].concat(Array.prototype.slice.call(arguments)));
-}
-
-function magenta() {
-    log.apply(null, ['magenta'].concat(Array.prototype.slice.call(arguments)));
-}
-
-function cyan() {
-    log.apply(null, ['cyan'].concat(Array.prototype.slice.call(arguments)));
-}
-
-function white() {
-    log.apply(null, ['white'].concat(Array.prototype.slice.call(arguments)));
+function oneOptionMethod(opt) {
+    return () =>
+        log.apply(null, [opt].concat(Array.prototype.slice.call(arguments)));
 }
 
 module.exports = {
@@ -172,13 +165,16 @@ module.exports = {
     SUPPORTEDS: Object.keys(supportedCodes),
     log,
     colorLog,
-    COLORS: Object.keys(colors),
-    EFFECTS: Object.keys(effects),
-    red,
-    green,
-    yellow,
-    blue,
-    magenta,
-    cyan,
-    white,
+    COLORS: colors,
+    BG_COLORS: bgColors,
+    EFFECTS: effects,
+    black: oneOptionMethod('black'),
+    red: oneOptionMethod('red'),
+    green: oneOptionMethod('green'),
+    yellow: oneOptionMethod('yellow'),
+    blue: oneOptionMethod('blue'),
+    magenta: oneOptionMethod('magenta'),
+    cyan: oneOptionMethod('cyan'),
+    white: oneOptionMethod('white'),
+    byCodes,
 };
