@@ -3,6 +3,11 @@ log with colors,
 Show log when envVar VERBOSE is set,
 Show stacktrace
 
+# How to use
+```
+npm install ct-logger
+```
+
 Screen shot of OSX.
 ![alt tag](./screenshot_OSX1.png)
 ![alt tag](./screenshot_OSX2.png)
@@ -43,7 +48,7 @@ Colors: BLACK,RED,GREEN,YELLOW,BLUE,MAGENTA,CYAN,WHITE
 logger.colorLog('green', 'li', 'ho');
 logger.colorLog('bg_red', 'li', 'ho');
 // shortcut of colorLog, all colors and bg are supported
-logger.red('this', 'is', 'red', 'log);
+logger.red('this', 'is', 'red', 'log');
 logger.bgGreen('this bg is green');
 ```
 
