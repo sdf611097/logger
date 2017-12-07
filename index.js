@@ -67,13 +67,21 @@ function getDateStr() {
     let now = new Date();
 
     //0x -> 0x, 0xx-> xx
-    let month = '0' + (now.getMonth() + 1);
-    let date = '0' + now.getDate();
+    function padZero(num) {
+        return ('0' + num).slice(-2);
+    }
+
+    let month = padZero(now.getMonth() + 1);
+    let date = padZero(now.getDate());
+    let hour = padZero(now.getHours());
+    let min = padZero(now.getMinutes());
+    let sec = padZero(now.getSeconds());
+
     month = month.slice(-2);
     date = date.slice(-2);
 
     let MMDD = month + '-' + date;
-    let HHMMSS = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+    let HHMMSS = hour + ':' + min + ':' + sec;
 
     return '[' + MMDD + ' ' + HHMMSS + ']';
 }

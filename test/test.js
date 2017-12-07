@@ -66,6 +66,7 @@ testDebug();
 
 logger.options.showDate = true;
 logger.log('cyan', 'belows will contains date str');
+testDebug();
 
 logger.log(null, 'using null');
 logger.log('notExist', 'notExistWillBeIgnored');
