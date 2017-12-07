@@ -1,6 +1,6 @@
 {
   "name": "ct-logger",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "log with colors, show debug log when envVar VERBOSE is set, show stacktrace, also log with date info",
   "main": "index.js",
   "directories": {
